@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GAMER ZONE</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #080b12;
+  color: white;
+  font-family: Tahoma, sans-serif;
+  text-align: center;
+  padding: 25px 16px;
+}
+h1 { color: #00ffc8; text-shadow: 0 0 15px #00ffc8; }
+.card {
+  max-width: 420px;
+  margin: 30px auto;
+  padding: 24px;
+  border: 1px solid #00ffc8;
+  border-radius: 20px;
+  background: #111827;
+  box-shadow: 0 0 22px #00ffc822;
+}
+input, button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border-radius: 10px;
+  font-size: 17px;
+}
+input {
+  background: #080b12;
+  color: white;
+  border: 1px solid #39465a;
+}
+button {
+  background: #00ffc8;
+  color: #08110f;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:active { transform: scale(.97); }
+#message { min-height: 50px; line-height: 1.8; }
+.small { color: #9ca3af; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>🎮 GAMER ZONE</h1>
+<p class="small">YOUR NEXT LEVEL STARTS HERE</p>
+
+<div class="card">
+  <h2>🔢 حدس عدد</h2>
+  <p>یه عدد بین ۱ تا ۱۰۰ پیدا کن!</p>
+
+  <input id="guess" type="number"
+  min="1" max="100" placeholder="عددت رو بنویس">
+
+  <button onclick="checkGuess()">حدس بزن 🚀</button>
+  <p id="message">بازی آماده است!</p>
+  <p>تعداد تلاش‌ها: <span id="tries">0</span></p>
+  <p>امتیاز: <span id="score">0</span></p>
+
+  <button onclick="restart()">🔄 بازی دوباره</button>
+</div>
+
+<p class="small">GAMER ZONE • PLAY • WIN • REPEAT</p>
+
+<script>
+let secret, tries, score = 0, finished;
+
+function restart() {
+  secret = Math.floor(Math.random() * 100) + 1;
+  tries = 0;
+  finished = false;
+  document.getElementById("tries").textContent = 0;
+  document.getElementById("guess").value = "";
+  document.getElementById("message").textContent =
+    "عدد مخفی انتخاب شد؛ شروع کن!";
+}
+
+function checkGuess() {
+  if (finished) return;
+
+  const input = document.getElementById("guess");
+  const n = Number(input.value);
+  const msg = document.getElementById("message");
+
+  if (input.value.trim() === "" ||
+      !Number.isInteger(n) || n < 1 || n > 100) {
+    msg.textContent = "یه عدد صحیح بین ۱ تا ۱۰۰ وارد کن.";
+    return;
+  }
+
+  tries++;
+  document.getElementById("tries").textContent = tries;
+
+  if (n === secret) {
+    msg.textContent = "🔥 آفرین! درست حدس زدی!";
+    score += Math.max(10, 100 - (tries - 1) * 10);
+    document.getElementById("score").textContent = score;
+    finished = true;
+  } else if (n < secret) {
+    msg.textContent = "عدد مخفی بزرگ‌تره! ⬆️";
+  } else {
+    msg.textContent = "عدد مخفی کوچیک‌تره! ⬇️";
+  }
+}
+
+restart();
+</script>
+</body>
+</html>
